@@ -4,7 +4,7 @@ import react from "@vitejs/plugin-react";
 export default defineConfig({
   resolve: {
     alias: {
-      "@": "/src",
+      "@": "/src", // Alias '@' to point to 'src'
     },
   },
 });

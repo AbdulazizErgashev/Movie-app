@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../toolkit/store";
-import { fetchSearchResults } from "../toolkit/features/movies/movieSlice";
+import { fetchSearchResults } from "../toolkit/features/movies/moviesSlice";
 
 const SearchBar: React.FC = () => {
   const [query, setQuery] = useState("");

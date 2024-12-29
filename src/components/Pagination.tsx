@@ -1,7 +1,7 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../toolkit/store";
-import { fetchMovies, setPage } from "../toolkit/features/movies/movieSlice";
+import { fetchMovies, setPage } from "../toolkit/features/movies/moviesSlice";
 
 const Pagination: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -10,6 +10,7 @@ const Pagination: React.FC = () => {
   );
 
   const handlePageChange = (page: number) => {
+    if (page < 1) return;
     dispatch(setPage(page));
     dispatch(fetchMovies(page));
   };
