@@ -14,24 +14,43 @@ export interface Movie {
 interface MoviesState {
   movies: Movie[];
   status: "idle" | "loading" | "failed";
+  currentPage: number;
 }
 
 const initialState: MoviesState = {
   movies: [],
   status: "idle",
+  currentPage: 1,
 };
 
-export const fetchMovies = createAsyncThunk("movies/fetchMovies", async () => {
-  const response = await axios.get(`${BASE_URL}/movie/popular`, {
-    params: { api_key: API_KEY },
-  });
-  return response.data.results;
-});
+export const fetchMovies = createAsyncThunk(
+  "movies/fetchMovies",
+  async (page: number = 1) => {
+    const response = await axios.get(`${BASE_URL}/movie/popular`, {
+      params: { api_key: API_KEY, page },
+    });
+    return response.data.results;
+  }
+);
+
+export const fetchSearchResults = createAsyncThunk(
+  "movies/fetchSearchResults",
+  async (query: string) => {
+    const response = await axios.get(`${BASE_URL}/search/movie`, {
+      params: { api_key: API_KEY, query },
+    });
+    return response.data.results;
+  }
+);
 
 const moviesSlice = createSlice({
   name: "movies",
   initialState,
-  reducers: {},
+  reducers: {
+    setPage: (state, action) => {
+      state.currentPage = action.payload;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchMovies.pending, (state) => {
@@ -43,8 +62,11 @@ const moviesSlice = createSlice({
       })
       .addCase(fetchMovies.rejected, (state) => {
         state.status = "failed";
+      })
+      .addCase(fetchSearchResults.fulfilled, (state, action) => {
+        state.movies = action.payload;
       });
   },
 });
 
-export default moviesSlice.reducer;
+export const { setPage } = moviesSlice.actions;
