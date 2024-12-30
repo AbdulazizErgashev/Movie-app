@@ -90,7 +90,7 @@ const MovieList: React.FC = () => {
               <img
                 src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
                 alt={movie.title}
-                className="rounded-lg mb-4 object-cover h-80 w-full"
+                className="rounded-lg mb-4 object-cover h-96 w-full" // height ozgartirildi
               />
               <div className="flex flex-col justify-between h-full">
                 <div>
